@@ -1,11 +1,24 @@
 # ⛱️ Umbrella Dad
 
+> **One beach. One umbrella. Zero chill.**
+>
+> The kids are feral. The seagulls are organized. The sand is *lava.* And one
+> sunburned, flip-flopped dad just wants to plant his umbrella in the perfect
+> spot before he loses his last shred of patience. Swing it, throw sodas at the
+> sky-rats, and bulldoze through a junior football drill — because that beach
+> chair isn't going to relax in itself. **Get to THE SPOT. Defend the dream.**
+
 A comedic arcade survival game. A tired suburban dad must cross one chaotic
 beach — kids, crabs, seagulls, melting ice cream, scorching sand and a junior
-football drill — to plant his umbrella at **THE SPOT** near the ocean.
+football drill — to plant his umbrella at **THE SPOT** near the ocean. Built as
+a self-contained HTML5 canvas game with chunky flat-vector cartoon art, a modern
+16-bit / synthwave look, CRT warmth, and lots of juice.
 
-Built as a self-contained HTML5 canvas game with chunky flat-vector cartoon art,
-a modern 16-bit / synthwave look, CRT warmth, and lots of juice.
+![Main menu](screenshots/menu.png)
+
+| The Gauntlet | Spot Secured |
+| --- | --- |
+| ![The gauntlet level map](screenshots/gauntlet.png) | ![Win screen](screenshots/win.png) |
 
 ## Play it
 
