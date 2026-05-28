@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umbrella Dad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Bungee&family=Fredoka:wght@400;500;600;700&family=Lilita+One&family=Titan+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-crt="1">
+
+<div id="boot">LOADING THE BEACH…</div>
+
+<div id="stage">
+  <div id="frame">
+    <canvas id="game" width="1920" height="1080"></canvas>
+
+    <!-- ============ HUD ============ -->
+    <div id="hud" class="hidden">
+      <div class="hud-top">
+        <div class="apanel" id="scoreBox">
+          <div class="lbl">SCORE</div>
+          <div class="val" id="scoreVal">0</div>
+        </div>
+
+        <div class="apanel" id="stressBox">
+          <div class="lbl">DAD STRESS</div>
+          <div class="meter" id="stressMeter"><i></i></div>
+        </div>
+
+        <div class="apanel" id="sodaBox">
+          <div class="lbl">SODA AMMO</div>
+          <div class="soda-row" id="sodaRow"></div>
+        </div>
+
+        <div class="apanel" id="distBox">
+          <div class="lbl">DISTANCE TO SPOT</div>
+          <div class="dist-track">
+            <div class="dist-fill" id="distFill"></div>
+            <div class="dist-dad" id="distDad">🩴</div>
+            <div class="dist-flag">⛱️</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="popups"></div>
+      <div id="hint">
+        <b>WASD</b>/<b>ARROWS</b> MOVE &nbsp; <b>J</b>/<b>SPACE</b> UMBRELLA &nbsp;
+        <b>K</b> THROW SODA &nbsp; <b>P</b> PAUSE &nbsp; <b>M</b> MUTE
+      </div>
+    </div>
+
+    <!-- ============ SCREENS ============ -->
+
+    <!-- MAIN MENU = KEY ART / POSTER -->
+    <div class="screen show" id="scrMenu">
+      <div class="poster-bg">
+        <div class="poster-sun" id="posterSun"></div>
+        <div class="poster-grid"></div>
+        <div class="poster-haze"></div>
+        <canvas id="menuArt" width="1920" height="1080"
+                style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+      </div>
+      <div class="inner">
+        <div class="logo" id="logo">
+          <span class="l1">UMBRELLA</span>
+          <span class="l2">DAD</span>
+          <span class="tag">ONE BEACH · ONE UMBRELLA · ZERO CHILL</span>
+        </div>
+        <div class="menu" id="menuList">
+          <button class="mbtn" data-act="play">START GAME</button>
+          <button class="mbtn" data-act="threats">THE THREATS</button>
+          <button class="mbtn" data-act="map">THE GAUNTLET</button>
+          <button class="mbtn" data-act="howto">HOW TO PLAY</button>
+        </div>
+        <div class="press">PRESS ENTER TO START</div>
+      </div>
+    </div>
+
+    <!-- THREATS = ENEMY CONCEPTS -->
+    <div class="screen" id="scrThreats">
+      <div class="poster-bg" style="background:linear-gradient(180deg,#160b2e,#3a0d52 60%,#7a1f6e);"></div>
+      <button class="backbtn" data-act="menu">← BACK</button>
+      <div class="inner">
+        <div class="scr-title">THE THREATS</div>
+        <div class="scr-sub">EVERYTHING BETWEEN DAD AND HIS SPOT</div>
+        <div class="threat-grid" id="threatGrid"></div>
+      </div>
+    </div>
+
+    <!-- MAP = LEVEL OVERVIEW -->
+    <div class="screen" id="scrMap">
+      <div class="poster-bg" style="background:linear-gradient(180deg,#160b2e,#2a0d52 70%,#5a157e);"></div>
+      <button class="backbtn" data-act="menu">← BACK</button>
+      <div class="inner">
+        <div class="scr-title">THE GAUNTLET</div>
+        <div class="scr-sub">LEVEL 1 · PARKING LOT → THE PERFECT SPOT</div>
+        <div id="mapWrap">
+          <canvas id="mapCanvas" width="300" height="452"></canvas>
+          <div class="map-legend" id="mapLegend"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO -->
+    <div class="screen" id="scrHow">
+      <div class="poster-bg" style="background:linear-gradient(180deg,#160b2e,#27365e 70%,#1f8ab0);"></div>
+      <button class="backbtn" data-act="menu">← BACK</button>
+      <div class="inner">
+        <div class="scr-title">HOW TO PLAY</div>
+        <div class="howto" id="howBody"></div>
+        <button class="mbtn sel" data-act="play" style="margin-top:8px;">START GAME ▶</button>
+      </div>
+    </div>
+
+    <!-- WIN -->
+    <div class="screen" id="scrWin">
+      <div class="poster-bg"><div class="poster-sun full" style="top:8%;"></div><div class="poster-haze"></div></div>
+      <div class="inner">
+        <div class="logo"><span class="l1" style="color:var(--neon-d);">SPOT</span>
+          <span class="l2" style="font-size:60px;">SECURED!</span></div>
+        <div class="big-stat" id="winStats"></div>
+        <div class="press" data-act="menu" style="cursor:pointer;">PRESS ENTER · MAIN MENU</div>
+      </div>
+    </div>
+
+    <!-- LOSE -->
+    <div class="screen" id="scrLose">
+      <div class="poster-bg" style="background:linear-gradient(180deg,#2a0d2a,#6e1f1f 70%,#c0392b);"></div>
+      <div class="inner">
+        <div class="logo"><span class="l1">DAD</span>
+          <span class="l2" style="font-size:54px;color:#fff;text-shadow:0 5px 0 #6e1f1f,0 6px 0 #000;">GAVE UP</span></div>
+        <div class="scr-sub" id="loseMsg">He went home and ordered a kiddie pool online.</div>
+        <div class="big-stat" id="loseStats"></div>
+        <div class="press" data-act="play" style="cursor:pointer;">PRESS ENTER · TRY AGAIN</div>
+      </div>
+    </div>
+
+    <!-- PAUSE -->
+    <div class="screen" id="scrPause">
+      <div class="poster-bg" style="background:rgba(10,4,24,.82);"></div>
+      <div class="inner">
+        <div class="scr-title">PAUSED</div>
+        <div class="menu">
+          <button class="mbtn" data-act="resume">RESUME</button>
+          <button class="mbtn" data-act="menu">QUIT TO MENU</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CRT overlay sits above everything visual -->
+    <div id="crt"></div>
+  </div>
+</div>
+
+<!-- Live re-skin defaults (palette / fonts / dad build / CRT).
+     The engine reads window.__UD_TWEAKS on boot via UD.applyTweaks(). -->
+<script>
+  window.__UD_TWEAKS = {
+    palette: "sunset",   // sunset | noon | night
+    font: "bungee",      // bungee | lilita | titan | pixel
+    logo: "classic",     // classic | outline | badge
+    dadBuild: "classic", // classic | dadbod | tall
+    crt: true
+  };
+</script>
+
+<!-- game modules -->
+<script src="game/util.js"></script>
+<script src="game/palette.js"></script>
+<script src="game/audio.js"></script>
+<script src="game/art.js"></script>
+<script src="game/art2.js"></script>
+<script src="game/fx.js"></script>
+<script src="game/dad.js"></script>
+<script src="game/enemies.js"></script>
+<script src="game/level.js"></script>
+<script src="game/hud.js"></script>
+<script src="game/game.js"></script>
+
+</body>
+</html>
