@@ -36,6 +36,8 @@ There's also a standalone **character animation sheet** at `Dad Sprite Sheet.htm
 (linked from the main menu via *↗ ANIMATION SHEET*): six articulated-rig
 animations with live previews, numbered frame strips, and PNG export.
 
+![Animation sheet — six articulated-rig animations with frame strips](screenshots/animation-sheet.png)
+
 ## Controls
 
 | Key | Action |
