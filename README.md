@@ -16,6 +16,8 @@ a self-contained HTML5 canvas game with chunky flat-vector cartoon art, a modern
 
 ![Main menu](screenshots/menu.png)
 
+![In-game — the dad picking through ice-cream slicks and beach kids, HUD up top](screenshots/gameplay.png)
+
 | The Gauntlet | Spot Secured |
 | --- | --- |
 | ![The gauntlet level map](screenshots/gauntlet.png) | ![Win screen](screenshots/win.png) |
