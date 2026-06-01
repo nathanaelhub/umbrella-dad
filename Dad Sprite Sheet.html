@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umbrella Dad — Animation Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Bungee&family=Fredoka:wght@400;500;600;700&family=Lilita+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --neon-a:#ff2d95; --neon-b:#00e5ff; --neon-c:#ffd23f; --neon-d:#b6ff3b;
+  --ink:#160b2e; --ink-2:#241046; --panel:#2a1450;
+  --pix:'Press Start 2P', monospace; --disp:'Bungee', sans-serif; --body:'Fredoka', sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;background:#0a0418;color:#fff;font-family:var(--body);
+  -webkit-font-smoothing:antialiased;}
+body{min-height:100vh;
+  background:
+    radial-gradient(130% 80% at 50% -10%, #2a0d52 0%, #14082e 50%, #0a0418 100%);
+  background-attachment:fixed;}
+
+/* faint CRT scanlines over everything */
+body::after{content:'';position:fixed;inset:0;z-index:999;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.13) 0 1px,transparent 1px 3px);opacity:.5;}
+body[data-crt="0"]::after{display:none;}
+
+a{color:inherit;}
+
+/* ---- top bar ---- */
+header{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:18px;
+  padding:16px 26px;background:linear-gradient(180deg,rgba(10,4,24,.96),rgba(10,4,24,.72));
+  backdrop-filter:blur(6px);border-bottom:2px solid rgba(255,255,255,.08);}
+.brand{display:flex;flex-direction:column;line-height:1;}
+.brand .b1{font-family:var(--pix);font-size:8px;letter-spacing:1px;color:var(--neon-b);text-shadow:1px 1px 0 #000;}
+.brand .b2{font-family:var(--disp);font-size:23px;letter-spacing:.5px;color:var(--neon-c);
+  text-shadow:0 2px 0 var(--neon-a),0 3px 0 #000;text-transform:uppercase;}
+.spacer{flex:1;}
+.back-link{font-family:var(--pix);font-size:8px;color:#fff;text-decoration:none;
+  background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.2);border-radius:7px;
+  padding:9px 12px;text-shadow:1px 1px 0 #000;transition:.15s;}
+.back-link:hover{color:var(--neon-c);border-color:var(--neon-c);}
+
+/* ---- controls ---- */
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;}
+.ctl{display:flex;align-items:center;gap:7px;font-family:var(--pix);font-size:7px;
+  letter-spacing:.5px;color:rgba(255,255,255,.7);}
+.seg{display:flex;border:2px solid rgba(255,255,255,.16);border-radius:7px;overflow:hidden;}
+.seg button{font-family:var(--pix);font-size:7px;color:rgba(255,255,255,.7);background:transparent;
+  border:0;padding:7px 9px;cursor:pointer;letter-spacing:.5px;transition:.12s;}
+.seg button:hover{color:#fff;background:rgba(255,255,255,.06);}
+.seg button.on{background:var(--neon-a);color:#160b2e;}
+.btn{font-family:var(--pix);font-size:8px;color:#160b2e;background:var(--neon-c);cursor:pointer;
+  border:2px solid #000;border-bottom-width:4px;border-radius:7px;padding:8px 12px;letter-spacing:.5px;
+  text-transform:uppercase;transition:transform .08s;}
+.btn:active{transform:translateY(2px);border-bottom-width:2px;}
+.btn.alt{background:var(--neon-b);}
+.btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.25);}
+input[type=range]{accent-color:var(--neon-a);width:96px;}
+
+/* ---- intro ---- */
+.intro{max-width:1180px;margin:26px auto 6px;padding:0 26px;}
+.intro h1{font-family:var(--disp);font-size:30px;margin:0 0 8px;letter-spacing:.5px;
+  text-shadow:0 3px 0 var(--neon-a),0 4px 0 #000;}
+.intro p{font-size:15px;line-height:1.55;color:rgba(255,255,255,.82);max-width:760px;margin:0;}
+.intro .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.chip{font-family:var(--pix);font-size:7px;letter-spacing:.5px;padding:6px 9px;border-radius:20px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.7);}
+.chip b{color:var(--neon-c);}
+
+/* ---- sheet rows ---- */
+.sheet{max-width:1180px;margin:18px auto 80px;padding:0 26px;display:flex;flex-direction:column;gap:22px;}
+.row{background:linear-gradient(180deg,rgba(36,16,70,.55),rgba(20,8,40,.55));
+  border:2px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;
+  box-shadow:0 6px 0 rgba(0,0,0,.4);}
+.row-head{display:flex;align-items:center;gap:14px;padding:14px 18px;
+  border-bottom:2px solid rgba(255,255,255,.07);background:rgba(0,0,0,.18);}
+.row-num{font-family:var(--pix);font-size:18px;color:var(--ink);background:var(--neon-c);
+  width:38px;height:38px;border-radius:9px;display:grid;place-items:center;border:2px solid #000;
+  box-shadow:0 3px 0 #000;flex:none;}
+.row-meta{flex:1;min-width:0;}
+.row-meta h3{font-family:var(--disp);font-size:20px;margin:0;letter-spacing:.5px;color:#fff;
+  text-shadow:0 2px 0 #000;}
+.row-meta p{margin:3px 0 0;font-size:13px;line-height:1.4;color:rgba(255,255,255,.66);max-width:680px;}
+.row-tags{display:flex;gap:6px;flex-wrap:wrap;flex:none;}
+.tag{font-family:var(--pix);font-size:7px;letter-spacing:.5px;padding:5px 8px;border-radius:6px;
+  border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.7);white-space:nowrap;}
+.tag b{color:var(--neon-b);}
+
+.row-body{display:grid;grid-template-columns:240px 1fr;gap:0;}
+@media(max-width:820px){.row-body{grid-template-columns:1fr;}}
+
+/* preview pane */
+.preview{position:relative;border-right:2px solid rgba(255,255,255,.07);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  padding:18px;background:
+    radial-gradient(90% 70% at 50% 30%, rgba(255,210,63,.06), transparent 70%);}
+@media(max-width:820px){.preview{border-right:0;border-bottom:2px solid rgba(255,255,255,.07);}}
+.preview canvas{border-radius:10px;}
+.preview .plabel{font-family:var(--pix);font-size:7px;color:rgba(255,255,255,.5);letter-spacing:.5px;}
+.replay{position:absolute;top:12px;right:12px;font-family:var(--pix);font-size:7px;cursor:pointer;
+  background:rgba(0,0,0,.45);border:2px solid rgba(255,255,255,.2);border-radius:6px;color:#fff;
+  padding:6px 8px;letter-spacing:.5px;transition:.12s;}
+.replay:hover{color:var(--neon-c);border-color:var(--neon-c);}
+
+/* frame strip */
+.strip{padding:18px;display:flex;flex-wrap:wrap;gap:12px;align-content:flex-start;}
+.cell{position:relative;border-radius:9px;overflow:hidden;border:2px solid rgba(255,255,255,.1);
+  background-size:16px 16px;}
+.cell .fnum{position:absolute;top:4px;left:5px;font-family:var(--pix);font-size:7px;
+  color:#fff;text-shadow:1px 1px 0 #000;opacity:.85;z-index:2;}
+.cell canvas{display:block;}
+body[data-labels="0"] .fnum{display:none;}
+
+/* checker bg for cells */
+.bg-checker{background-color:#26203a;
+  background-image:linear-gradient(45deg,#1c1730 25%,transparent 25%),
+    linear-gradient(-45deg,#1c1730 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#1c1730 75%),
+    linear-gradient(-45deg,transparent 75%,#1c1730 75%);
+  background-position:0 0,0 8px,8px -8px,-8px 0;}
+.bg-sand{background:linear-gradient(180deg,#f6d98c,#e8be63);}
+.bg-sky{background:linear-gradient(180deg,#7fd5ff,#bfe9ff);}
+.bg-night{background:#0c0620;}
+
+footer{max-width:1180px;margin:0 auto;padding:0 26px 60px;color:rgba(255,255,255,.4);
+  font-size:12px;text-align:center;}
+footer b{color:rgba(255,255,255,.6);}
+</style>
+</head>
+<body data-crt="1" data-labels="1">
+
+<header>
+  <div class="brand">
+    <span class="b1">UMBRELLA DAD</span>
+    <span class="b2">Animation Sheet</span>
+  </div>
+  <div class="spacer"></div>
+  <div class="controls" id="controls">
+    <button class="btn alt" id="playToggle">⏸ PAUSE</button>
+    <div class="ctl">SPEED <input type="range" id="speed" min="0.25" max="2" step="0.05" value="1"></div>
+    <div class="ctl">BG
+      <div class="seg" id="bgSeg">
+        <button data-bg="bg-checker" class="on">GRID</button>
+        <button data-bg="bg-sand">SAND</button>
+        <button data-bg="bg-sky">SKY</button>
+        <button data-bg="bg-night">NIGHT</button>
+      </div>
+    </div>
+    <div class="ctl">BUILD
+      <div class="seg" id="buildSeg">
+        <button data-build="classic" class="on">CLASSIC</button>
+        <button data-build="dadbod">DAD BOD</button>
+        <button data-build="tall">TALL</button>
+      </div>
+    </div>
+    <button class="btn ghost" id="labelToggle">LABELS ✓</button>
+    <button class="btn" id="exportAll">⬇ EXPORT PNG</button>
+  </div>
+  <a class="back-link" href="index.html">▶ PLAY GAME</a>
+</header>
+
+<div class="intro">
+  <h1>Six moves, frame by frame.</h1>
+  <p>Every animation the dad needs to survive the beach — built as a posed, articulated rig so each
+  frame is a real key pose, not a filter. Previews loop live on the left; the numbered strips on the
+  right are the sprite frames you'd hand to an animator. The finale is the umbrella placement: hoist,
+  plant, bloom, relax.</p>
+  <div class="chips">
+    <span class="chip"><b>6</b> ANIMATIONS</span>
+    <span class="chip"><b>45</b> KEY FRAMES</span>
+    <span class="chip">STYLE · <b>16-BIT VECTOR</b></span>
+    <span class="chip">EXPORTABLE · <b>PNG SHEETS</b></span>
+  </div>
+</div>
+
+<div class="sheet" id="sheet"></div>
+
+<footer>
+  <b>Umbrella Dad</b> — character animation reference · drawn procedurally in the arcade vector style ·
+  swap background, build &amp; speed above to preview in context.
+</footer>
+
+<script src="game/util.js"></script>
+<script src="game/palette.js"></script>
+<script src="game/sprites.js"></script>
+<script src="game/spritesheet.js"></script>
+</body>
+</html>

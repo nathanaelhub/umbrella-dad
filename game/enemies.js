@@ -106,6 +106,14 @@
         this.x += this.kvx0 * dt; this.y -= 120 * dt; this.diving = true;
         if (this.y < g.camY - 60) this.alive = false; return;
       }
+      // IDLE: stay near spawn band until the dad is roughly on-screen
+      if (Math.abs(this.y - dad.y) > 360) {
+        this.diving = false;
+        this.y = this.hover + Math.sin(this.walk * .5) * 8;
+        this.x = UD.clamp(this.x + Math.sin(this.walk * .3) * 14 * dt, UD.MARGIN + 10, UD.VW - UD.MARGIN - 10);
+        this.cool = UD.rand(.4, 1);
+        return;
+      }
       // hover above dad, then dive
       this.cool -= dt;
       const tx = dad.x, ty = dad.y - 130;

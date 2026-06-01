@@ -32,6 +32,10 @@ python3 -m http.server 8000
 (Opening `index.html` directly via `file://` also works in most browsers; a
 local server is just more reliable for audio + fonts.)
 
+There's also a standalone **character animation sheet** at `Dad Sprite Sheet.html`
+(linked from the main menu via *↗ ANIMATION SHEET*): six articulated-rig
+animations with live previews, numbered frame strips, and PNG export.
+
 ## Controls
 
 | Key | Action |
@@ -74,6 +78,15 @@ file owns one concern (loaded in order from `index.html`):
 | `game/level.js` | Level layout + spawner, hazards, coolers, ocean, the goal |
 | `game/hud.js` | **UIManager** — HUD meters, threats gallery, gauntlet map, win/lose stats |
 | `game/game.js` | Engine: state machine, loop, camera, input, **WeaponSystem** wiring, menu key-art |
+| `game/sprites.js` | Articulated dad rig (posed joints + IK arms) — used by the animation sheet |
+| `game/spritesheet.js` | Builds the `Dad Sprite Sheet.html` page: previews, frame strips, PNG export |
+
+> **Two dads, on purpose.** The in-game dad is the fast procedural figure in
+> `art.js`. The newer articulated rig in `sprites.js` is a higher-fidelity motion
+> reference shown on the animation sheet; their state/animation names already
+> match (`jog`/`swing`/`throw`/`slip`/`hop`/`victory`), so unifying them is a
+> clean future step. See `handoff/` (`ARCHITECTURE`, `GAMEPLAY`, `SPRITE-RIG`,
+> `ROADMAP`) and `CLAUDE.md` for the full developer notes.
 
 ### Live re-skin
 

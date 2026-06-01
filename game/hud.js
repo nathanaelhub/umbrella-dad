@@ -114,13 +114,67 @@
     const W = c.width, H = c.height, P = UD.PAL;
     ctx.clearRect(0, 0, W, H);
     // ocean at top
-    ctx.fillStyle = '#1f6dc4'; ctx.fillRect(0, 0, W, 70);
-    ctx.fillStyle = '#bfe9ff'; for (let x = 0; x < W; x += 16) { ctx.beginPath(); ctx.arc(x, 70, 6, Math.PI, 0); ctx.fill(); }
-    // sand
-    ctx.fillStyle = '#f2c879'; ctx.fillRect(0, 66, W, H - 66);
+    const OL = '#1c1018';
+    const drawMapUmbrella = (ux, uy) => {
+      const PA = UD.PAL;
+      ctx.save(); ctx.translate(ux, uy);
+      // pole into the sand
+      ctx.strokeStyle = '#d8d2c4'; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(2, 1); ctx.lineTo(-1, -17); ctx.stroke();
+      // canopy dome
+      ctx.save(); ctx.translate(-1, -17); ctx.rotate(-.12);
+      ctx.beginPath(); ctx.moveTo(-15, 0); ctx.arc(0, 0, 15, Math.PI, 0); ctx.closePath();
+      ctx.fillStyle = PA.neonA || '#ff2d95'; ctx.fill();
+      ctx.fillStyle = '#fff';
+      for (let i = 0; i < 3; i++) { const a0 = Math.PI + (i * 2 / 6) * Math.PI, a1 = Math.PI + ((i * 2 + 1) / 6) * Math.PI; ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, 15, a0, a1); ctx.closePath(); ctx.fill(); }
+      ctx.lineWidth = 2.2; ctx.strokeStyle = OL; ctx.beginPath(); ctx.moveTo(-15, 0); ctx.arc(0, 0, 15, Math.PI, 0); ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, -1, 2, 0, 7); ctx.fillStyle = '#ffe14d'; ctx.fill();
+      ctx.restore(); ctx.restore();
+    };
+
+    // ===== base sand =====
+    const sg = ctx.createLinearGradient(0, 0, 0, H);
+    sg.addColorStop(0, '#f3d488'); sg.addColorStop(1, '#e6bd62');
+    ctx.fillStyle = sg; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = UD.hexa('#c7a052', .45);
+    for (let i = 0; i < 130; i++) { ctx.beginPath(); ctx.arc((i * 53) % W, (i * 89) % H, 1.2, 0, 7); ctx.fill(); }
+
+    // ===== TOP — ocean + beach (where the umbrella goes) =====
+    const og = ctx.createLinearGradient(0, 0, 0, 36);
+    og.addColorStop(0, '#0d4f9e'); og.addColorStop(1, '#2b8fd6');
+    ctx.fillStyle = og; ctx.fillRect(0, 0, W, 34);
+    ctx.strokeStyle = UD.hexa('#bfe9ff', .5); ctx.lineWidth = 2; ctx.lineCap = 'round';
+    for (let i = 0; i < 6; i++) { const y = 7 + i * 4.4, ox = (i * 47) % (W - 50); ctx.beginPath(); ctx.moveTo(14 + ox, y); ctx.lineTo(48 + ox, y); ctx.stroke(); }
+    // foam waterline
+    ctx.fillStyle = '#eafaff';
+    for (let x = 0; x < W + 16; x += 15) { ctx.beginPath(); ctx.arc(x, 34, 8, Math.PI, 0); ctx.fill(); }
+    ctx.fillStyle = UD.hexa('#bfe9ff', .7);
+    for (let x = 7; x < W + 16; x += 15) { ctx.beginPath(); ctx.arc(x, 40, 5, Math.PI, 0); ctx.fill(); }
+    // wet glossy sand strip
+    ctx.fillStyle = '#e0bd72'; ctx.fillRect(0, 43, W, 16);
+    ctx.fillStyle = UD.hexa('#ffffff', .14); ctx.fillRect(0, 43, W, 5);
+
+    // ===== BOTTOM — parking lot (the start) =====
+    const plTop = H - 58;
+    ctx.fillStyle = '#3a4150'; ctx.fillRect(0, plTop, W, 58);
+    ctx.fillStyle = '#d8d2c4'; ctx.fillRect(0, plTop - 3, W, 4);          // curb
+    ctx.fillStyle = UD.hexa('#000', .22); ctx.fillRect(0, plTop + 1, W, 3);
+    ctx.strokeStyle = UD.hexa('#f2f0e6', .72); ctx.lineWidth = 2.4;        // stall stripes
+    for (let x = 26; x < W; x += 44) { ctx.beginPath(); ctx.moveTo(x, plTop + 7); ctx.lineTo(x, plTop + 30); ctx.stroke(); }
+    ctx.setLineDash([6, 7]); ctx.strokeStyle = UD.hexa('#ffd23f', .85); ctx.lineWidth = 2.4;  // lane
+    ctx.beginPath(); ctx.moveTo(0, plTop + 40); ctx.lineTo(W, plTop + 40); ctx.stroke(); ctx.setLineDash([]);
+    const car = (cx, cy, col) => {
+      ctx.save(); ctx.translate(cx, cy);
+      UD.rr(ctx, -15, -9, 30, 18, 5); ctx.fillStyle = col; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = OL; ctx.stroke();
+      UD.rr(ctx, -10, -6, 20, 11, 3); ctx.fillStyle = UD.shade(col, .18); ctx.fill();
+      ctx.fillStyle = '#bfe9ff'; UD.rr(ctx, -8, -4, 16, 7, 2); ctx.fill();
+      ctx.restore();
+    };
+    car(38, plTop + 19, '#d6443f');
+    car(W - 44, plTop + 17, '#3b7dd6');
     const n = ZONES.length, band = (H - 70) / (n - 1);
     // route path (zigzag)
-    ctx.strokeStyle = UD.hexa('#1c1018', .35); ctx.lineWidth = 6; ctx.setLineDash([2, 8]); ctx.lineCap = 'round';
+    ctx.strokeStyle = UD.hexa('#fff', .55); ctx.lineWidth = 5; ctx.setLineDash([3, 7]); ctx.lineCap = 'round';
     ctx.beginPath();
     for (let i = 0; i < n; i++) {
       const y = H - 30 - i * band, x = W / 2 + Math.sin(i * 1.3) * 60;
@@ -135,9 +189,22 @@
       ctx.fillStyle = '#160b2e'; ctx.font = 'bold 11px "Press Start 2P"'; ctx.textAlign = 'center';
       ctx.fillText(i === n - 1 ? '★' : String(i + 1), x, y + 4);
     }
-    // start flag
-    const sy = H - 30, sx = W / 2 + Math.sin(0) * 60;
-    ctx.fillStyle = '#160b2e'; ctx.font = '7px "Press Start 2P"'; ctx.fillText('START', sx, sy + 24);
+    // ===== scenery markers + labels =====
+    ctx.textAlign = 'center';
+    const sx = W / 2 + Math.sin(0) * 60;
+    ctx.fillStyle = '#fff'; ctx.font = '7px "Press Start 2P"';
+    ctx.fillText('START', sx, H - 6);
+    // parking-lot tag (in the sand, just above the lot)
+    ctx.textAlign = 'left'; ctx.fillStyle = '#3a4150'; ctx.font = '7px "Press Start 2P"';
+    ctx.fillText('P · PARKING LOT', 10, H - 68);
+    // planted beach umbrella at THE SPOT (top node)
+    const ex = W / 2 + Math.sin((n - 1) * 1.3) * 60, ey = H - 30 - (n - 1) * band;
+    drawMapUmbrella(ex, ey);
+    // beach tag (top-right)
+    ctx.textAlign = 'right'; ctx.fillStyle = '#fff'; ctx.font = '7px "Press Start 2P"';
+    ctx.fillText('THE BEACH', W - 8, 13);
+    ctx.textAlign = 'center'; ctx.fillStyle = UD.PAL.neonC; ctx.font = '6px "Press Start 2P"';
+    ctx.fillText('PLANT IT!', ex, ey + 22);
 
     // legend
     const leg = $('mapLegend'); leg.innerHTML = '<h4>7 ZONES · 1 SPOT</h4>';

@@ -208,6 +208,13 @@ body[data-crt="0"] #crt{display:none;}
   border-radius:6px;padding:7px 11px;cursor:pointer;text-shadow:1px 1px 0 #000;}
 .backbtn:hover{color:var(--neon-c);border-color:var(--neon-c);}
 
+/* corner link to the animation sheet */
+.corner-link{position:absolute;bottom:16px;right:18px;z-index:4;font-family:var(--font-pixel);
+  font-size:8px;color:#fff;text-decoration:none;background:rgba(0,0,0,.42);
+  border:2px solid rgba(255,255,255,.22);border-radius:7px;padding:8px 11px;
+  letter-spacing:.5px;text-shadow:1px 1px 0 #000;transition:.15s;}
+.corner-link:hover{color:var(--neon-c);border-color:var(--neon-c);transform:translateY(-1px);}
+
 .scr-title{font-family:var(--font-display);font-size:34px;color:#fff;
   text-shadow:0 4px 0 var(--neon-a),0 5px 0 #000;letter-spacing:1px;}
 .scr-sub{font-family:var(--font-pixel);font-size:8px;color:rgba(255,255,255,.7);
@@ -244,6 +251,12 @@ body[data-crt="0"] #crt{display:none;}
 .leg-txt i{display:block;font-style:normal;opacity:.62;font-size:11.5px;}
 
 /* ---- WIN / LOSE ---- */
+#scrWin .logo .l1,#scrLose .logo .l1{margin-bottom:10px;}
+#scrWin .logo .l2,#scrLose .logo .l2{line-height:1;}
+#scrWin .inner,#scrLose .inner{gap:14px;}
+#scrWin .big-stat,#scrLose .big-stat{background:rgba(12,6,32,.5);
+  border:2px solid rgba(255,255,255,.18);border-radius:12px;padding:16px 22px;
+  box-shadow:0 4px 0 #000;}
 .big-stat{font-family:var(--font-pixel);font-size:11px;color:#fff;
   display:flex;flex-direction:column;gap:9px;margin-top:8px;}
 .big-stat .row{display:flex;justify-content:space-between;gap:30px;min-width:300px;}
