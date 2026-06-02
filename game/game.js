@@ -52,14 +52,14 @@
         if (map[e.code]) { this.input[map[e.code]] = 1; e.preventDefault(); }
         if (e.repeat) return;
         if (e.code === 'KeyJ' || e.code === 'Space') { this.input.swing = true; e.preventDefault(); }
-        if (e.code === 'KeyK') { this.input.throwAiming = true; e.preventDefault(); }
+        if (e.code === 'KeyE') { this.input.throwAiming = true; e.preventDefault(); }
         if (e.code === 'KeyP' || e.code === 'Escape') this.togglePause();
         if (e.code === 'KeyM') UD.audio.toggleMute();
         if (e.code === 'Enter') this._enter();
       });
       addEventListener('keyup', e => {
         if (map[e.code]) this.input[map[e.code]] = 0;
-        if (e.code === 'KeyK' && this.input.throwAiming) {
+        if (e.code === 'KeyE' && this.input.throwAiming) {
           this.input.throwAiming = false;
           this.input.throwRelease = true;
         }
