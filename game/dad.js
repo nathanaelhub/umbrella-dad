@@ -90,9 +90,9 @@
         this.state = 'swing'; this.swingT = 0; this.swingCd = 0.45; this.stateT = 0;
         g.umbrellaHit();
       }
-      if (input.throw && this.throwCd <= 0 && this.soda > 0) {
+      if (input.throwRelease && this.throwCd <= 0 && this.soda > 0) {
         this.throwCd = 0.4; this.soda--; this.squash = 0.8;
-        g.throwSoda(this.x, this.y - 30, this.fx, this.fy);
+        g.throwSoda(this.x, this.y - 30, input.aimFx || this.fx, input.aimFy || this.fy);
         UD.hud.updateSoda();
       }
     }

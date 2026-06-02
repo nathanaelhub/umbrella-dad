@@ -6,7 +6,9 @@
     state: 'menu',
     enemies: [], projectiles: [],
     camY: 0, shakeAmt: 0, time: 0,
-    input: { left: 0, right: 0, up: 0, down: 0, swing: false, throw: false },
+    input: { left: 0, right: 0, up: 0, down: 0, swing: false, throw: false,
+             throwAiming: false, throwRelease: false, aimFx: 0, aimFy: -1,
+             mouseX: 480, mouseY: 270 },
 
     init() {
       this.canvas = document.getElementById('game');
@@ -50,13 +52,24 @@
         if (map[e.code]) { this.input[map[e.code]] = 1; e.preventDefault(); }
         if (e.repeat) return;
         if (e.code === 'KeyJ' || e.code === 'Space') { this.input.swing = true; e.preventDefault(); }
-        if (e.code === 'KeyK') { this.input.throw = true; e.preventDefault(); }
+        if (e.code === 'KeyK') { this.input.throwAiming = true; e.preventDefault(); }
         if (e.code === 'KeyP' || e.code === 'Escape') this.togglePause();
         if (e.code === 'KeyM') UD.audio.toggleMute();
         if (e.code === 'Enter') this._enter();
       });
-      addEventListener('keyup', e => { if (map[e.code]) this.input[map[e.code]] = 0; });
+      addEventListener('keyup', e => {
+        if (map[e.code]) this.input[map[e.code]] = 0;
+        if (e.code === 'KeyK' && this.input.throwAiming) {
+          this.input.throwAiming = false;
+          this.input.throwRelease = true;
+        }
+      });
       addEventListener('blur', () => { for (const k in this.input) this.input[k] = (typeof this.input[k] === 'number') ? 0 : false; });
+      addEventListener('mousemove', e => {
+        const rect = this.canvas.getBoundingClientRect();
+        this.input.mouseX = (e.clientX - rect.left) * (UD.VW / rect.width);
+        this.input.mouseY = (e.clientY - rect.top)  * (UD.VH / rect.height);
+      });
     },
     _enter() {
       if (this.state === 'menu' || this.state === 'howto') this.startGame();
@@ -144,6 +157,14 @@
     update(dt) {
       this.time += dt;
       const d = this.dad;
+      // Recompute aim direction from mouse each frame while aiming or releasing
+      if (this.input.throwAiming || this.input.throwRelease) {
+        const adx = this.input.mouseX - d.x;
+        const ady = this.input.mouseY - (d.y - this.camY);
+        const am = Math.hypot(adx, ady) || 1;
+        this.input.aimFx = adx / am;
+        this.input.aimFy = ady / am;
+      }
       d.update(dt, this.input, this);
       this.level.update(dt, d, this);
 
@@ -204,6 +225,37 @@
       for (const p of this.projectiles) UD.art.soda(ctx, { x: p.x, y: p.y - camY, spin: p.spin });
 
       UD.fx.draw(ctx, camY);
+
+      // Aim arrow — shown while K is held and soda remains
+      if (this.input.throwAiming && this.dad.soda > 0) {
+        const d = this.dad;
+        const ox = d.x, oy = d.y - camY;
+        const ang = Math.atan2(this.input.aimFy, this.input.aimFx);
+        const len = 72, headLen = 16, headAng = 0.42;
+        const tx = ox + Math.cos(ang) * len, ty = oy + Math.sin(ang) * len;
+
+        ctx.save();
+        ctx.globalAlpha = 0.28;
+        ctx.shadowColor = 'rgba(255,255,255,0.3)';
+        ctx.shadowBlur = 6;
+        ctx.strokeStyle = '#f0ede8';
+        ctx.fillStyle   = '#f0ede8';
+        ctx.lineWidth   = 3;
+        ctx.lineCap     = 'round';
+
+        // shaft
+        ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(tx, ty); ctx.stroke();
+
+        // arrowhead
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(tx - Math.cos(ang - headAng) * headLen, ty - Math.sin(ang - headAng) * headLen);
+        ctx.lineTo(tx - Math.cos(ang + headAng) * headLen, ty - Math.sin(ang + headAng) * headLen);
+        ctx.closePath(); ctx.fill();
+
+        ctx.restore();
+      }
+
       ctx.restore();
     },
 
@@ -255,7 +307,7 @@
         this.update(dt);
         this.render();
         // clear edge-triggers
-        this.input.swing = false; this.input.throw = false;
+        this.input.swing = false; this.input.throw = false; this.input.throwRelease = false;
       } else if (this.state === 'paused') {
         this.render();
       } else if (this.state === 'menu') {
