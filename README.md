@@ -46,7 +46,7 @@ animations with live previews, numbered frame strips, and PNG export.
 | --- | --- |
 | **WASD / Arrows** | Jog toward the ocean (slightly clumsy; hot sand & ice change the feel) |
 | **J / Space** | Umbrella swing — wide cone melee with knockback |
-| **K** | Throw a soda — arced ranged stun (only **6**; grab coolers to refill) |
+| **E** (hold) | Aim a soda — hold to aim with the mouse (a directional arrow appears), release to throw. Arced ranged stun, only **6** (grab coolers to refill) |
 | **P / Esc** | Pause |
 | **M** | Mute / unmute |
 | **Enter** | Start / restart / confirm |

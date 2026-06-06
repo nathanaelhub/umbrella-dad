@@ -222,7 +222,7 @@
     $('howBody').innerHTML = `
       <div class="line"><b>WASD / ARROWS</b> — jog toward the ocean (watch your stamina, he's tired)</div>
       <div class="line"><b>J / SPACE</b> — umbrella swing: wide arc, knocks kids & crabs flying</div>
-      <div class="line"><b>K</b> — hurl a soda: long-range stun, but you only carry 6 (grab coolers!)</div>
+      <div class="line"><b>E</b> (hold) — aim a soda with the mouse, release to hurl it: long-range stun, but you only carry 6 (grab coolers!)</div>
       <div class="line" style="margin-top:6px;opacity:.85;">Dodge the chaos, keep the <b style="color:var(--neon-c)">STRESS</b> meter down,
       and reach <b style="color:var(--neon-c)">THE SPOT</b> to plant your umbrella.</div>`;
   };

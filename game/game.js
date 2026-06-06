@@ -226,7 +226,7 @@
 
       UD.fx.draw(ctx, camY);
 
-      // Aim arrow — shown while K is held and soda remains
+      // Aim arrow — shown while E is held and soda remains
       if (this.input.throwAiming && this.dad.soda > 0) {
         const d = this.dad;
         const ox = d.x, oy = d.y - camY;
